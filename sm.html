@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html ng-app>
+	<head>
+		<title>阳光书屋服务器运维手册</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<style type="text/css" media="screen">
+        	.content-discription {margin-left: 50px; margin-right: 50px; margin-top: 20px; font-size: 18px; background-color: #eeeeee}
+        	.code {color: #ffffff; background-color: #005555; display:table; border-radius: 3px; font-family: "Georgia";}
+        	.total_new>ol>li>ul>li>p.code{margin-left: 20px;}
+        	#float_progress{position:fixed;top:110px;left:0;border:2px solid #000000;display: block; width: 50px;height: 400px;text-align: center;}
+        	#float_progress>div{border:1px solid #000000;display:table-row; width: 20px;height: 50px;background-color: #eeeeee}
+        </style>
+        <link href="angular.min.js" type="text/javascript">
+        <script type="text/javascript">
+        function ProgressCtrl($scope) {
+  			$scope.counts =  function() {
+    			var count = 7;
+    			return count;
+    		};
+    	};
+		</script>
+	</head>
+	<body>
+		<div style="font-size:30px;text-align:center;margin-top:20px">阳光书屋服务器运维手册</div>
+		<div class="content-discription total_new" style="margin-top:50px">
+			<h3>一、一台全新服务器的配置</h3>
+			<div id="float_progress" ng-controller="ProgressCtrl">
+				<div id="rectangle_1" ><p>1</p><p>√</p></div>
+				<div id="rectangle_2">2</div>
+				<div id="rectangle_3">3</div>
+				<div id="rectangle_4">4</div>
+				<div id="rectangle_5">5</div>
+				<div id="rectangle_6">6</div>
+				<div id="rectangle_7">7</div>
+
+			</div>
+			<ol>
+				<li><h4><input type="checkbox">安装 Debian</input></h4>
+					<ul>
+						<li>语言：English US</li>
+						<li>地区：Asia - China</li>
+                        <li>键盘：American English</li>
+						<li>Host： debian-xx (xx为拼音，如debian-sw)</li>
+						<li>Domain：sunshine-library.org</li>
+						<li>root password: united815</li>
+						<li>默认用户：master</li>
+						<li>密码：unitedmaster</li>
+						<li>分区：all files in one partition</li>
+						<li>系统安装软件: SSH Server、Standard system utilities</li>
+					</ul>
+				</li>
+				<li><h4><input type="checkbox">配置 Debian</input></h4>
+					<ul>
+						<li><input type="checkbox">执行以下命令，来安装中文字符集</input>
+							<p class="code">su -c 'dpkg-reconfigure locales'</p>
+							<p>选中下面三种安装，则可显示中文了：
+								<ul>
+									<li>[*] zh_CN GB2312</li>
+									<li>[*] zh_CN.GBK GBK</li>
+									<li>[*] zh_CN.UTF-8 UTF-8</li>
+								</ul>
+							</p>
+						</li>
+						<li><input type="checkbox">执行以下命令，向 sudoer 中添加 master 用户</input>
+							<p class="code">echo '{username} ALL=(ALL) ALL' >> /etc/sudoers</p>
+						</li>
+						<li><input type="checkbox">执行以下命令，配置最快的 Debian Mirror</input>
+							<p class="code">sudo apt-get update</>
+							<p class="code">sudo apt-get install apt-spy</p>
+							<p class="code">sudo apt-spy -d stable -a asia</p>
+						</li>
+						<li><input type="checkbox">执行以下命令，更新并安装依赖库</input>
+							<p class="code">sudo apt-get install sudo vim  sendmail-bin sendmail git libmagic-dev bootlogd curl libmemcached-dev libsasl2-dev gettext ssh</p>
+						</li>
+						<li><input type="checkbox">执行以下命令，修改/etc/motd</input>
+							<p class="code">sudo sh -c 'uname -a >> /etc/motd'</p>
+						</li>
+						<li><input type="checkbox">执行以下命令，来记录每个用户执行过的命令</input>
+							<p class="code">sudo vim /etc/profile</p>
+							<p class="code">sudo sh -c 'echo HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "\\nexport HISTTIMEFORMAT >> /etc/profile'</p>
+						</li>
+					</ul>
+				</li>
+				<li><h4><input type="checkbox">安装各种依赖和服务</input></h4>
+					<ul>
+						<li><input type="checkbox">执行以下命令，向 VPNserver 中添加IP</input>
+							<p class="code">ssh work@42.121.108.196</p>
+							<p class="code">vim /etc/openvpn/ccd/debian-xx</p>
+							<p class="code">INSERT "ifconfig-push 10.8.0.x 10.8.0.1"</p>
+						</li>
+						<li><input type="checkbox">向VPNserver中添加新域名</input>
+							<a href="https://trello.com/c/Mz4GDzrV">见此 trello 卡</a>
+						</li>
+						<li><input type="checkbox">安装配置 OpenVPN</input>
+							<a href="https://trello.com/c/enCdKCj1">见此 trello 卡</a>
+						</li>
+						<li><input type="checkbox">安装配置 MySQL</input>
+							<a href="https://trello.com/c/prJvr6N0">见此 trello 卡</a>
+						</li>
+						<li><input type="checkbox">安装配置 Ruby</input>
+							<a href="https://trello.com/c/Yctgrrlh">见此 trello 卡</a>
+						</li>
+						<li><input type="checkbox">安装配置 MongoDB</input>
+							<a href="https://trello.com/c/UCuLVSkj">见此 trello 卡</a>
+						</li>
+						<li><input type="checkbox">安装配置 Ruby Gems</input>
+							<a href="https://trello.com/c/wP3a3WOf">见此 trello 卡</a>
+						</li>
+						<li><input type="checkbox">安装配置 Convert和FFmpeg</input>
+							<a href="https://trello.com/c/wP3a3WOf">见此 trello 卡</a>
+						</li>
+					</ul>
+				</li>
+				<li><h4><input type="checkbox">创建结构化文件夹</input></h4>
+				</li>
+				<li><h4><input type="checkbox">部署后台源代码</input></h4></li>
+				<li><h4><input type="checkbox">后台相关配置</input></h4></li>
+				<li><h4><input type="checkbox">启动后台服务</input></h4></li>
+			</ol>
+		</div> 
+		<div class="content-discription">
+			<h3>二、日常运维工作</h3>
+
+		</div>
+		<div class="content-discription">
+			<h3>三、新代码部署流程</h3>
+			<ol>
+				<li>cd 至 current 目录下</li>
+				<li>执行以下命令将项目代码更新至最新状态<p class="code">git pull origin master</p></li>
+				<li>执行以下命令来安装所需依赖<p class="code">bundle install --deployment --path /home/master/production/LocalServer/shared/bundle --without development,test</p></li>
+				<li>如遇到某些 gem 无法安装，首先执行以下命令单独安装gem<p class="code">gem install {gemfilename} --install /home/master/production/LocalServer/shared/bundle</p></li>
+				<li> 所有依赖安装成功后，执行以下命令来启动 Rails Server<p class="code">RAILS_ENV=production bundle exec rails c</p></li>
+				<li>执行以下命令来重启 Unicorn 和 Nginx <p class="code">sudo /etc/init.d/unicorn.sh start
+					sudo /etc/init.d/nginx restart</p></li>
+				<li>打开浏览器访问xx.sunshine-library.org，确认后台状态正常</li>
+			</ol>
+		</div>
+		<div class="content-discription">
+			<h3>四、自动化部署规划</h3>
+		</div>
+		<div class="content-discription">
+			<h3>附录 -- 配置脚本集合</h3>
+		</div>
+	</body>
+</html>
